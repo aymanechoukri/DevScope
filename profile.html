@@ -1,0 +1,290 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="style.css" />
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css"
+    />
+
+    <title>DevScope | Profil</title>
+  </head>
+  <body class="bg-gray-950 text-white overflow-hidden">
+    <header
+      class="relative z-20 flex w-[90%] lg:w-[80%] mx-auto my-8 items-center justify-between gap-4 rounded-full border border-white/10 bg-white/[0.06] backdrop-blur-xl shadow-[0_8px_35px_rgba(142,30,162,0.2)] px-5 py-3 before:content-[''] before:absolute before:inset-0 before:rounded-full before:border before:border-white/10 before:pointer-events-none"
+    >
+      <a href="./index.html" class="relative z-10 shrink-0">
+        <img
+          src="./assets/Image/logo.png"
+          alt="DevScope Logo"
+          class="w-24 md:w-28 object-contain"
+        />
+      </a>
+
+      <nav class="relative z-10">
+        <ul class="flex items-center gap-2 md:gap-4">
+          <li>
+            <a
+              href="./index.html"
+              class="block rounded-full border border-[#8E1EA2]/40 bg-[#8E1EA2]/15 px-5 py-2.5 text-sm font-semibold transition-all duration-300 hover:bg-[#8E1EA2]/30 hover:border-[#D552A3]/70 hover:shadow-[0_0_20px_rgba(142,30,162,0.4)]"
+            >
+              Recherche
+            </a>
+          </li>
+
+          <li>
+            <a
+              href="./shortlist.html"
+              class="block rounded-full border border-white/10 bg-white/5 px-5 py-2.5 text-sm font-semibold transition-all duration-300 hover:bg-[#D552A3]/15 hover:border-[#D552A3]/50 hover:shadow-[0_0_20px_rgba(213,82,163,0.3)]"
+            >
+              Shortlist
+            </a>
+          </li>
+        </ul>
+      </nav>
+    </header>
+
+    <div class="absolute inset-0 overflow-hidden pointer-events-none">
+      <div
+        class="absolute w-[550px] h-[550px] rounded-full bg-[#8E1EA2]/20 blur-[140px] -top-[250px] -left-[200px]"
+      ></div>
+
+      <div
+        class="absolute w-[450px] h-[450px] rounded-full bg-[#D552A3]/15 blur-[130px] -top-[150px] -right-[150px]"
+      ></div>
+
+      <div
+        class="absolute w-[700px] h-[400px] rounded-full bg-[#8E1EA2]/15 blur-[150px] top-[30%] left-1/2 -translate-x-1/2"
+      ></div>
+
+      <div
+        class="absolute w-[500px] h-[500px] rounded-full bg-[#D552A3]/10 blur-[140px] -bottom-[250px] -left-[200px]"
+      ></div>
+
+      <div
+        class="absolute w-[600px] h-[500px] rounded-full bg-[#8E1EA2]/20 blur-[150px] -bottom-[250px] -right-[200px]"
+      ></div>
+
+      <div
+        class="absolute w-[900px] h-[180px] rotate-[-25deg] rounded-full bg-[#D552A3]/10 blur-[100px] top-[45%] -left-[200px]"
+      ></div>
+    </div>
+
+    <main>
+      <section class="p-5 m-5">
+        <div class="relative w-full group">
+          <div
+            class="absolute -inset-[1px] rounded-2xl bg-gradient-to-r from-[#8E1EA2] to-[#D552A3] opacity-30 blur-md transition duration-300 group-focus-within:opacity-70"
+          ></div>
+
+          <div
+            class="relative flex w-full items-center gap-3 rounded-2xl border border-white/10 bg-white/[0.06] backdrop-blur-xl px-5 py-4 transition-all duration-300 group-focus-within:border-[#D552A3]/50 group-focus-within:bg-white/[0.09]"
+          >
+            <svg
+              class="w-5 h-5 text-[#D552A3] shrink-0"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+            >
+              <circle cx="11" cy="11" r="7" stroke-width="2" />
+              <path d="m16 16 4 4" stroke-width="2" stroke-linecap="round" />
+            </svg>
+
+            <input
+              type="search"
+              name="search"
+              id="search"
+              placeholder="Search any users..."
+              class="w-full min-w-0 bg-transparent outline-none text-white placeholder:text-gray-500 text-sm tracking-wide"
+            />
+
+            <span
+              class="shrink-0 text-xs text-white border border-white/10 rounded-lg px-3 py-2 cursor-pointer"
+            >
+              Search
+            </span>
+          </div>
+        </div>
+      </section>
+
+      <section class="flex gap-10 p-10">
+        <div
+          class="group relative z-20 flex w-full max-w-sm flex-col items-center gap-5 overflow-hidden rounded-2xl border border-white/10 bg-[#100B16]/80 p-6 text-white shadow-[0_8px_35px_rgba(142,30,162,0.18)] backdrop-blur-xl transition-all duration-300 hover:-translate-y-2 hover:border-[#D552A3]/40 hover:shadow-[0_15px_45px_rgba(142,30,162,0.3)]"
+        >
+          <div
+            class="pointer-events-none absolute -right-16 -top-16 h-40 w-40 rounded-full bg-[#8E1EA2]/20 blur-3xl transition duration-500 group-hover:bg-[#D552A3]/25"
+          ></div>
+
+          <div class="relative">
+            <div
+              class="absolute -inset-1 rounded-full bg-gradient-to-r from-[#8E1EA2] to-[#D552A3] opacity-70 blur-md"
+            ></div>
+            <img
+              src="./assets/Image/profil default instagram.jpeg"
+              alt="Profile image"
+              class="relative h-24 w-24 rounded-full border-2 border-[#D552A3]/60 object-cover"
+            />
+            <span
+              class="absolute bottom-1 right-1 h-4 w-4 rounded-full border-2 border-[#100B16] bg-green-400"
+            ></span>
+          </div>
+
+          <div class="relative text-center">
+            <h2 class="text-xl font-bold tracking-wide">Users Name</h2>
+            <h3 class="mt-1 text-sm text-[#D552A3]">@user-name</h3>
+          </div>
+
+          <div
+            class="flex w-full flex-col items-center gap-2 border-y border-white/10 py-4 text-sm text-gray-400"
+          >
+            <p class="flex items-center gap-2">
+              <span class="text-[#D552A3]">⌖</span>
+              City, Morocco
+            </p>
+            <p>Member depuis janvier 2021</p>
+          </div>
+
+          <div class="relative grid w-full grid-cols-3 gap-2">
+            <article class="flex flex-col items-center gap-1">
+              <p class="text-xl font-bold text-white">64</p>
+              <p class="text-xs text-gray-400">Dépôts</p>
+            </article>
+
+            <article
+              class="flex flex-col items-center gap-1 border-x border-white/10"
+            >
+              <p class="text-xl font-bold text-white">95</p>
+              <p class="text-xs text-gray-400">Abonnés</p>
+            </article>
+
+            <article class="flex flex-col items-center gap-1">
+              <p class="text-xl font-bold text-white">18</p>
+              <p class="text-xs text-gray-400">Abonnements</p>
+            </article>
+          </div>
+
+          <div class="relative flex w-full flex-col gap-3 pt-2">
+            <button
+              class="w-full cursor-pointer rounded-xl bg-gradient-to-r from-[#8E1EA2] to-[#D552A3] px-4 py-3 text-sm font-semibold text-white shadow-[0_5px_20px_rgba(142,30,162,0.25)] transition-all duration-300 hover:brightness-110 hover:shadow-[0_5px_25px_rgba(213,82,163,0.4)]"
+            >
+              + Ajouter à la shortlist
+            </button>
+
+            <button
+              class="w-full rounded-xl cursor-pointer border border-white/10 bg-white/[0.04] px-4 py-3 text-sm font-medium text-gray-300 transition-all duration-300 hover:border-[#D552A3]/50 hover:bg-[#D552A3]/10 hover:text-white"
+            >
+              Voir le profil original
+            </button>
+          </div>
+        </div>
+
+        <div
+          class="group relative z-20 flex flex-1 flex-col gap-5 overflow-hidden rounded-2xl border border-white/10 bg-[#100B16]/80 p-6 text-white shadow-[0_8px_35px_rgba(142,30,162,0.18)] backdrop-blur-xl transition-all duration-300 hover:-translate-y-2 hover:border-[#D552A3]/40 hover:shadow-[0_15px_45px_rgba(142,30,162,0.3)]"
+        >
+          <div
+            class="pointer-events-none absolute -right-16 -top-16 h-40 w-40 rounded-full bg-[#8E1EA2]/10 blur-3xl transition-all duration-500 group-hover:bg-[#D552A3]/20"
+          ></div>
+
+          <div class="relative flex items-center justify-between">
+            <h2 class="text-sm font-semibold tracking-wider text-white/70">
+              Depots
+            </h2>
+
+            <span
+              class="rounded-lg border border-[#D552A3]/20 bg-[#D552A3]/10 px-3 py-1 text-sm font-bold text-[#E879C0]"
+            >
+              64
+            </span>
+          </div>
+
+          <div class="grid grid-cols-2 gap-5">
+            <article
+              class="relative flex flex-col gap-4 rounded-xl border border-white/[0.07] bg-white/[0.03] p-4 transition-all duration-300 group-hover:border-[#D552A3]/20 group-hover:bg-white/[0.05]"
+            >
+              <div class="flex items-center justify-between">
+                <h3
+                  class="text-base font-bold text-white transition-colors duration-300 group-hover:text-[#E879C0]"
+                >
+                  test-workflow
+                </h3>
+
+                <i class="fa-solid fa-code-branch text-sm text-[#D552A3]"></i>
+              </div>
+
+              <p class="text-sm text-white/40">Aucune description.</p>
+
+              <div
+                class="flex flex-wrap items-center gap-4 border-t border-white/[0.07] pt-3"
+              >
+                <span class="flex items-center gap-2 text-xs text-white/60">
+                  <i class="fa-solid fa-circle text-[7px] text-[#D552A3]"></i>
+                  Html
+                </span>
+
+                <span class="flex items-center gap-2 text-xs text-white/60">
+                  <i class="fa-regular fa-star text-[#E879C0]"></i>
+                  0
+                </span>
+
+                <span class="flex items-center gap-2 text-xs text-white/60">
+                  <i class="fa-solid fa-code-branch text-[#E879C0]"></i>
+                  0
+                </span>
+              </div>
+              <div
+                class="relative flex items-center gap-2 text-xs text-white/35"
+              >
+                <i class="fa-regular fa-clock text-[#D552A3]/70"></i>
+                Mis à jour il y a 27 jours
+              </div>
+            </article>
+
+            <article
+              class="relative flex flex-col gap-4 rounded-xl border border-white/[0.07] bg-white/[0.03] p-4 transition-all duration-300 group-hover:border-[#D552A3]/20 group-hover:bg-white/[0.05]"
+            >
+              <div class="flex items-center justify-between">
+                <h3
+                  class="text-base font-bold text-white transition-colors duration-300 group-hover:text-[#E879C0]"
+                >
+                  test-workflow
+                </h3>
+
+                <i class="fa-solid fa-code-branch text-sm text-[#D552A3]"></i>
+              </div>
+
+              <p class="text-sm text-white/40">Aucune description.</p>
+
+              <div
+                class="flex flex-wrap items-center gap-4 border-t border-white/[0.07] pt-3"
+              >
+                <span class="flex items-center gap-2 text-xs text-white/60">
+                  <i class="fa-solid fa-circle text-[7px] text-[#D552A3]"></i>
+                  Html
+                </span>
+
+                <span class="flex items-center gap-2 text-xs text-white/60">
+                  <i class="fa-regular fa-star text-[#E879C0]"></i>
+                  0
+                </span>
+
+                <span class="flex items-center gap-2 text-xs text-white/60">
+                  <i class="fa-solid fa-code-branch text-[#E879C0]"></i>
+                  0
+                </span>
+              </div>
+              <div
+                class="relative flex items-center gap-2 text-xs text-white/35"
+              >
+                <i class="fa-regular fa-clock text-[#D552A3]/70"></i>
+                Mis à jour il y a 27 jours
+              </div>
+            </article>
+          </div>
+        </div>
+      </section>
+    </main>
+  </body>
+</html>
