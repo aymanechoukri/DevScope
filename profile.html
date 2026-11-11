@@ -3,12 +3,13 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="stylesheet" href="style.css" />
+    <link rel="stylesheet" href="css/style.css" />
     <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
     <link
       rel="stylesheet"
       href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css"
     />
+    <script type="module" src="./src/profileHtml.js" defer></script>
 
     <title>DevScope | Profil</title>
   </head>
@@ -111,7 +112,7 @@
       </section>
 
       <section class="flex gap-10 p-10">
-        <div
+        <div id="profile"
           class="group relative z-20 flex w-full max-w-sm flex-col items-center gap-5 overflow-hidden rounded-2xl border border-white/10 bg-[#100B16]/80 p-6 text-white shadow-[0_8px_35px_rgba(142,30,162,0.18)] backdrop-blur-xl transition-all duration-300 hover:-translate-y-2 hover:border-[#D552A3]/40 hover:shadow-[0_15px_45px_rgba(142,30,162,0.3)]"
         >
           <div
@@ -188,6 +189,8 @@
             class="pointer-events-none absolute -right-16 -top-16 h-40 w-40 rounded-full bg-[#8E1EA2]/10 blur-3xl transition-all duration-500 group-hover:bg-[#D552A3]/20"
           ></div>
 
+          
+
           <div class="relative flex items-center justify-between">
             <h2 class="text-sm font-semibold tracking-wider text-white/70">
               Depots
@@ -200,88 +203,7 @@
             </span>
           </div>
 
-          <div class="grid grid-cols-2 gap-5">
-            <article
-              class="relative flex flex-col gap-4 rounded-xl border border-white/[0.07] bg-white/[0.03] p-4 transition-all duration-300 group-hover:border-[#D552A3]/20 group-hover:bg-white/[0.05]"
-            >
-              <div class="flex items-center justify-between">
-                <h3
-                  class="text-base font-bold text-white transition-colors duration-300 group-hover:text-[#E879C0]"
-                >
-                  test-workflow
-                </h3>
-
-                <i class="fa-solid fa-code-branch text-sm text-[#D552A3]"></i>
-              </div>
-
-              <p class="text-sm text-white/40">Aucune description.</p>
-
-              <div
-                class="flex flex-wrap items-center gap-4 border-t border-white/[0.07] pt-3"
-              >
-                <span class="flex items-center gap-2 text-xs text-white/60">
-                  <i class="fa-solid fa-circle text-[7px] text-[#D552A3]"></i>
-                  Html
-                </span>
-
-                <span class="flex items-center gap-2 text-xs text-white/60">
-                  <i class="fa-regular fa-star text-[#E879C0]"></i>
-                  0
-                </span>
-
-                <span class="flex items-center gap-2 text-xs text-white/60">
-                  <i class="fa-solid fa-code-branch text-[#E879C0]"></i>
-                  0
-                </span>
-              </div>
-              <div
-                class="relative flex items-center gap-2 text-xs text-white/35"
-              >
-                <i class="fa-regular fa-clock text-[#D552A3]/70"></i>
-                Mis à jour il y a 27 jours
-              </div>
-            </article>
-
-            <article
-              class="relative flex flex-col gap-4 rounded-xl border border-white/[0.07] bg-white/[0.03] p-4 transition-all duration-300 group-hover:border-[#D552A3]/20 group-hover:bg-white/[0.05]"
-            >
-              <div class="flex items-center justify-between">
-                <h3
-                  class="text-base font-bold text-white transition-colors duration-300 group-hover:text-[#E879C0]"
-                >
-                  test-workflow
-                </h3>
-
-                <i class="fa-solid fa-code-branch text-sm text-[#D552A3]"></i>
-              </div>
-
-              <p class="text-sm text-white/40">Aucune description.</p>
-
-              <div
-                class="flex flex-wrap items-center gap-4 border-t border-white/[0.07] pt-3"
-              >
-                <span class="flex items-center gap-2 text-xs text-white/60">
-                  <i class="fa-solid fa-circle text-[7px] text-[#D552A3]"></i>
-                  Html
-                </span>
-
-                <span class="flex items-center gap-2 text-xs text-white/60">
-                  <i class="fa-regular fa-star text-[#E879C0]"></i>
-                  0
-                </span>
-
-                <span class="flex items-center gap-2 text-xs text-white/60">
-                  <i class="fa-solid fa-code-branch text-[#E879C0]"></i>
-                  0
-                </span>
-              </div>
-              <div
-                class="relative flex items-center gap-2 text-xs text-white/35"
-              >
-                <i class="fa-regular fa-clock text-[#D552A3]/70"></i>
-                Mis à jour il y a 27 jours
-              </div>
-            </article>
+          <div id="parent2" class="grid grid-cols-2 gap-5 overflow-y-auto max-h-[500px] scrollbar-none">            
           </div>
         </div>
       </section>
