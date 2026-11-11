@@ -17,8 +17,10 @@ export function SerchUsers(serch, serchValue) {
 async function FetchData(user) {
     try {
         const res = await fetch(`${GITHUB_API}/${user}`)
+        if (!res.ok) {
+            throw new Error("User not found");
+        }
         data = await res.json();
-        console.log(data);
 
           data ?  window.location.href = `./profile.html?username=${data.login}` : './index.html';
     } catch (error) {

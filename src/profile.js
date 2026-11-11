@@ -1,27 +1,36 @@
 import { GITHUB_API } from "./api.js";
 
 const params = new URLSearchParams(window.location.search);
-const username = params.get("username");
+let username = params.get("username");
+let user = null;
+let repo = null;
 
+let p1 = null;
+let p2 = null;
 
-export async function ShowProfile (parent, parent2) {
-    parent.innerHTML = "";
+export async function ShowProfile(parent, parent2) {
+  p1 = parent;
+  p2 = parent2;
 
-    if (!username) {
-        throw new eroor("user introvable");
-    }
+  parent.innerHTML = "";
+  parent2.innerHTML = "";
 
-    const res = await fetch(`${GITHUB_API}/${username}`);
-    const res1 = await fetch(`${GITHUB_API}/${username}/repos`)
-    const user = await res.json();
-    const repo = await res1.json();
+  if (!username) {
+    throw new eroor("user introvable");
+  }
 
-    console.log(user)
-    console.log(repo)
+  const res = await fetch(`${GITHUB_API}/${username}`);
+  const res1 = await fetch(`${GITHUB_API}/${username}/repos`);
+  if (!res.ok || !res1.ok) {
+    throw new Error("User not found");
+  }
+  user = await res.json();
+  repo = await res1.json();
 
+  console.log(user);
+  console.log(repo);
 
-    const html = 
-    `<div
+  const html = `<div
             class="pointer-events-none absolute -right-16 -top-16 h-40 w-40 rounded-full bg-[#8E1EA2]/20 blur-3xl transition duration-500 group-hover:bg-[#D552A3]/25"
           ></div>
 
@@ -86,12 +95,10 @@ export async function ShowProfile (parent, parent2) {
               </a>
             </button>
           </div>
-        </div>`
+        </div>`;
 
-    
-    repo.forEach(re => {
-        const html1 = 
-    `<article
+  repo.forEach((re) => {
+    const html1 = `<article
               class="relative flex flex-col gap-4 rounded-xl border border-white/[0.07] bg-white/[0.03] p-4 transition-all duration-300 group-hover:border-[#D552A3]/20 group-hover:bg-white/[0.05]"
             >
               <div class="flex items-center justify-between">
@@ -124,8 +131,36 @@ export async function ShowProfile (parent, parent2) {
                   0
                 </span>
               </div>
-            </article>`
-            parent2.insertAdjacentHTML('beforeend',html1);
-    })
-          parent.insertAdjacentHTML('beforeend',html);
+            </article>`;
+    parent2.insertAdjacentHTML("beforeend", html1);
+  });
+  parent.insertAdjacentHTML("beforeend", html);
+}
+
+async function FetchData(user) {
+  try {
+    const res = await fetch(`${GITHUB_API}/${user}`);
+    const res1 = await fetch(`${GITHUB_API}/${user}/repos`);
+    if (!res.ok || !res1.ok) {
+      throw new Error("User not found");
+    } 
+
+    user = await res.json();
+    repo = await res1.json();
+    window.location.href = `./profile.html?username=${user.login}`
+    console.log(res);
+  } catch (error) {
+    console.error(error);
+  }
+}
+
+export function SerchUsers(serch, serchValue) {
+  serchValue.addEventListener("input", (e) => {
+    username = e.target.value;
+  });
+
+  serch.addEventListener("click", () => {
+    FetchData(username);
+    ShowProfile(p1, p2);
+  });
 }
