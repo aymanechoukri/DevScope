@@ -1,4 +1,4 @@
-import { GITHUB_API } from "./api.js";
+import { GITHUB_API, MOCK_API } from "./api.js";
 
 const params = new URLSearchParams(window.location.search);
 let username = params.get("username");
@@ -26,9 +26,6 @@ export async function ShowProfile(parent, parent2) {
   }
   user = await res.json();
   repo = await res1.json();
-
-  console.log(user);
-  console.log(repo);
 
   const html = `<div
             class="pointer-events-none absolute -right-16 -top-16 h-40 w-40 rounded-full bg-[#8E1EA2]/20 blur-3xl transition duration-500 group-hover:bg-[#D552A3]/25"
@@ -82,7 +79,7 @@ export async function ShowProfile(parent, parent2) {
           </div>
 
           <div class="relative flex w-full flex-col gap-3 pt-2">
-            <button
+            <button data-id=${user.id}
               class="w-full cursor-pointer rounded-xl bg-gradient-to-r from-[#8E1EA2] to-[#D552A3] px-4 py-3 text-sm font-semibold text-white shadow-[0_5px_20px_rgba(142,30,162,0.25)] transition-all duration-300 hover:brightness-110 hover:shadow-[0_5px_25px_rgba(213,82,163,0.4)]"
             >
               + Ajouter à la shortlist
@@ -143,12 +140,11 @@ async function FetchData(user) {
     const res1 = await fetch(`${GITHUB_API}/${user}/repos`);
     if (!res.ok || !res1.ok) {
       throw new Error("User not found");
-    } 
+    }
 
     user = await res.json();
     repo = await res1.json();
-    window.location.href = `./profile.html?username=${user.login}`
-    console.log(res);
+    window.location.href = `./profile.html?username=${user.login}`;
   } catch (error) {
     console.error(error);
   }
@@ -162,5 +158,41 @@ export function SerchUsers(serch, serchValue) {
   serch.addEventListener("click", () => {
     FetchData(username);
     ShowProfile(p1, p2);
+  });
+}
+
+async function PostData() {
+  const res = await fetch(`${GITHUB_API}/${username}`);
+  const res1 = await fetch(`${GITHUB_API}/${username}/repos`);
+  if (!res.ok || !res1.ok) {
+    throw new Error("User not found");
+  }
+  user = await res.json();
+  repo = await res1.json();
+  try {
+    const res = await fetch(MOCK_API, {
+      method: "POST",
+      headers: {
+        "content-type": "application/json",
+      },
+      body: JSON.stringify({
+        username: user.login,
+        avatar_url: user.avatar_url,
+        language: repo.find((r) => r.language)?.language || "Unknown",
+        description: user.bio || "No description available.",
+        addedAt: new Date().toISOString().split("T")[0],
+      }),
+    });
+    const data = res.json();
+  } catch (error) {
+    console.error(error);
+  }
+}
+
+export function Submit(parent) {
+  parent.addEventListener("click", (e) => {
+    const btn = e.target.closest("[data-id]");
+    if (!btn) return;
+    PostData();
   });
 }

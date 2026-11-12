@@ -47,7 +47,6 @@ export async function FetchData(parent) {
                   <div
                     class="flex flex-wrap items-center gap-2 text-sm text-gray-400"
                   >
-                    <span>${user.login}</span>
                     <span class="h-1 w-1 rounded-full bg-gray-600"></span>
                     <span
                       class="rounded-md border border-[#8E1EA2]/30 bg-[#8E1EA2]/15 px-2 py-1 text-xs font-semibold text-[#DDA0E8]"
@@ -58,7 +57,7 @@ export async function FetchData(parent) {
 
                   <p class="flex items-center gap-2 text-xs text-gray-500">
                     <i class="fa-regular fa-calendar text-[#D552A3]"></i>
-                    Ajouté le 06/11/2026
+                    ${user.addedAt}
                   </p>
                 </div>
               </div>

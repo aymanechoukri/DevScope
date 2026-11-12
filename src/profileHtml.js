@@ -1,4 +1,4 @@
-import { SerchUsers, ShowProfile } from "./profile.js"
+import { SerchUsers, ShowProfile, Submit } from "./profile.js"
 
 
 const profile = document.querySelector("#profile");
@@ -8,3 +8,4 @@ const submit = document.querySelector("#submit");
 
 ShowProfile(profile, profile2)
 SerchUsers(submit, serch2)
+Submit(profile);
