@@ -15,11 +15,19 @@ export async function ShowProfile(parent, parent2) {
   parent.innerHTML = "";
   parent2.innerHTML = "";
 
+  parent.innerHTML = `
+        <p class="text-purple-600 text-sm font-medium bg-purple-500/10 border border-purple-500/20 rounded-lg px-4 py-3 text-center animate-pulse">
+            <i class="fa-solid fa-spinner fa-spin mr-2"></i>
+            Loading...
+        </p>
+    `;
+
   if (!username) {
     throw new eroor("user introvable");
   }
 
   const res = await fetch(`${GITHUB_API}/${username}`);
+
   const res1 = await fetch(`${GITHUB_API}/${username}/repos`);
   if (!res.ok || !res1.ok) {
     parent.innerHTML = `
@@ -137,10 +145,16 @@ export async function ShowProfile(parent, parent2) {
             </article>`;
     parent2.insertAdjacentHTML("beforeend", html1);
   });
-  parent.insertAdjacentHTML("beforeend", html);
+  parent.innerHTML = html;
 }
 
-async function FetchData(user) {
+async function FetchData(user, parent) {
+  parent.innerHTML = `
+        <p class="text-purple-600 text-sm font-medium bg-purple-500/10 border border-purple-500/20 rounded-lg px-4 py-3 text-center animate-pulse">
+            <i class="fa-solid fa-spinner fa-spin mr-2"></i>
+            Loading...
+        </p>
+    `;
   try {
     const res = await fetch(`${GITHUB_API}/${user}`);
     const res1 = await fetch(`${GITHUB_API}/${user}/repos`);
@@ -153,16 +167,18 @@ async function FetchData(user) {
     window.location.href = `./profile.html?username=${user.login}`;
   } catch (error) {
     console.error(error);
+  } finally {
+    parent.innerHTML = "";
   }
 }
 
-export function SerchUsers(serch, serchValue) {
+export function SerchUsers(serch, serchValue, parent) {
   serchValue.addEventListener("input", (e) => {
     username = e.target.value;
   });
 
   serch.addEventListener("click", () => {
-    FetchData(username);
+    FetchData(username, parent);
     ShowProfile(p1, p2);
   });
 }
@@ -176,7 +192,7 @@ async function PostData() {
   user = await res.json();
   repo = await res1.json();
   try {
-    const res = await fetch(MOCK_API, {
+    const res3 = await fetch(MOCK_API, {
       method: "POST",
       headers: {
         "content-type": "application/json",
@@ -189,7 +205,7 @@ async function PostData() {
         addedAt: new Date().toISOString().split("T")[0],
       }),
     });
-    const data = res.json();
+    const data = res3.json();
   } catch (error) {
     console.error(error);
   }

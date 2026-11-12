@@ -4,6 +4,7 @@ let data = null;
 
 
 export async function FetchData(parent) {
+    refrsh(parent)
     try {
         const res = await fetch(MOCK_API)
         if(!res.ok) {
@@ -12,6 +13,8 @@ export async function FetchData(parent) {
         data = await res.json()
     } catch (error) {
         console.error(error);
+    } finally {
+        parent.innerHTML = "";
     }
 
     parent.innerHTML = "";
@@ -107,4 +110,13 @@ export async function FetchData(parent) {
         `
         parent.insertAdjacentHTML("beforeend", html)
     })
+}
+
+function refrsh(ref) {
+    ref.innerHTML = `
+        <p class="text-purple-600 text-sm font-medium bg-purple-500/10 border border-purple-500/20 rounded-lg px-4 py-3 text-center animate-pulse">
+            <i class="fa-solid fa-spinner fa-spin mr-2"></i>
+            Loading...
+        </p>
+    `;
 }

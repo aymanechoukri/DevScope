@@ -7,5 +7,5 @@ const serch2 = document.querySelector("#search2");
 const submit = document.querySelector("#submit");
 
 ShowProfile(profile, profile2)
-SerchUsers(submit, serch2)
+SerchUsers(submit, serch2, profile)
 Submit(profile);
