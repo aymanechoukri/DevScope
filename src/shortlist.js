@@ -10,7 +10,6 @@ export async function FetchData(parent) {
             throw new error("User Not Found");
         }
         data = await res.json()
-        console.log(data);
     } catch (error) {
         console.error(error);
     }

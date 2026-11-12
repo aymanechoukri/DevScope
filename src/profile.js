@@ -22,12 +22,18 @@ export async function ShowProfile(parent, parent2) {
   const res = await fetch(`${GITHUB_API}/${username}`);
   const res1 = await fetch(`${GITHUB_API}/${username}/repos`);
   if (!res.ok || !res1.ok) {
+    parent.innerHTML = `
+        <p class="text-red-500 text-sm font-semibold bg-red-500/10 border border-red-500/20 rounded-lg p-3 text-center">
+            <i class="fa-solid fa-circle-exclamation mr-2"></i>
+            Utilisateur introuvable
+        </p>
+    `;
     throw new Error("User not found");
   }
   user = await res.json();
   repo = await res1.json();
 
-  const html = `<div
+  const html =`<div
             class="pointer-events-none absolute -right-16 -top-16 h-40 w-40 rounded-full bg-[#8E1EA2]/20 blur-3xl transition duration-500 group-hover:bg-[#D552A3]/25"
           ></div>
 
