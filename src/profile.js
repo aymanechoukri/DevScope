@@ -16,6 +16,8 @@ export async function ShowProfile(parent, parent2) {
   parent2.innerHTML = "";
 
   parent.innerHTML = `
+  
+   
         <p class="text-purple-600 text-sm font-medium bg-purple-500/10 border border-purple-500/20 rounded-lg px-4 py-3 text-center animate-pulse">
             <i class="fa-solid fa-spinner fa-spin mr-2"></i>
             Loading...
@@ -89,7 +91,7 @@ export async function ShowProfile(parent, parent2) {
             <article class="flex flex-col items-center gap-1">
               <p class="text-xl font-bold text-white">${user.following}</p>
               <p class="text-xs text-gray-400">Abonnements</p>
-            </article>
+            </article>   
           </div>
 
           <div class="relative flex w-full flex-col gap-3 pt-2">
@@ -186,11 +188,19 @@ export function SerchUsers(serch, serchValue, parent) {
 async function PostData() {
   const res = await fetch(`${GITHUB_API}/${username}`);
   const res1 = await fetch(`${GITHUB_API}/${username}/repos`);
-  if (!res.ok || !res1.ok) {
+  const res2 = await fetch(MOCK_API);
+  if (!res.ok || !res1.ok || !res2.ok) {
     throw new Error("User not found");
   }
   user = await res.json();
   repo = await res1.json();
+  const users = await res2.json();
+  console.log(users)
+  const errorUser = users.find(u => u.username === user.login);
+  if (errorUser) {
+     return;
+  }
+ 
   try {
     const res3 = await fetch(MOCK_API, {
       method: "POST",
