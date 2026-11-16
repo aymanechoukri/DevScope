@@ -91,6 +91,7 @@ export async function FetchData(parent) {
 
                   <button
                     type="button"
+                    data-deleted=${user.id};
                     class="rounded-xl border border-[#D552A3]/30 bg-gradient-to-r from-[#8E1EA2]/20 to-[#D552A3]/10 px-4 py-2.5 text-xs font-bold text-[#F49ACD] transition-all duration-300 hover:border-[#D552A3]/60 hover:from-[#8E1EA2]/40 hover:to-[#D552A3]/30 hover:shadow-[0_0_20px_rgba(213,82,163,0.15)]"
                   >
                     <i class="fa-solid fa-pen-to-square mr-1"></i>
@@ -119,4 +120,11 @@ function refrsh(ref) {
             Loading...
         </p>
     `;
+}
+
+
+export function modale(button, popap) {
+      button.addEventListener("click", () => {
+          popap.hidden = true;
+      })
 }
