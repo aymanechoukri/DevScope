@@ -1,4 +1,5 @@
 import { GITHUB_API, MOCK_API } from "./api.js";
+import { longage, searchRepo } from "./profileHtml.js";
 
 const params = new URLSearchParams(window.location.search);
 let username = params.get("username");
@@ -42,8 +43,9 @@ export async function ShowProfile(parent, parent2) {
   }
   user = await res.json();
   repo = await res1.json();
+  SerchRepo(repo);
 
-  const html =`<div
+  const html = `<div
             class="pointer-events-none absolute -right-16 -top-16 h-40 w-40 rounded-full bg-[#8E1EA2]/20 blur-3xl transition duration-500 group-hover:bg-[#D552A3]/25"
           ></div>
 
@@ -109,44 +111,6 @@ export async function ShowProfile(parent, parent2) {
             </button>
           </div>
         </div>`;
-
-  repo.forEach((re) => {
-    const html1 = `<article
-              class="relative flex flex-col gap-4 rounded-xl border border-white/[0.07] bg-white/[0.03] p-4 transition-all duration-300 group-hover:border-[#D552A3]/20 group-hover:bg-white/[0.05]"
-            >
-              <div class="flex items-center justify-between">
-                <h3
-                  class="text-base font-bold text-white transition-colors duration-300 group-hover:text-[#E879C0]"
-                >
-                  ${re.name}
-                </h3>
-
-                <i class="fa-solid fa-code-branch text-sm text-[#D552A3]"></i>
-              </div>
-
-              <p class="text-sm text-white/40">Aucune description.</p>
-
-              <div
-                class="flex flex-wrap items-center gap-4 border-t border-white/[0.07] pt-3"
-              >
-                <span class="flex items-center gap-2 text-xs text-white/60">
-                  <i class="fa-solid fa-circle text-[7px] text-[#D552A3]"></i>
-                  ${re.language}
-                </span>
-
-                <span class="flex items-center gap-2 text-xs text-white/60">
-                  <i class="fa-regular fa-star text-[#E879C0]"></i>
-                  ${re.stargazers_count}
-                </span>
-
-                <span class="flex items-center gap-2 text-xs text-white/60">
-                  <i class="fa-solid fa-code-branch text-[#E879C0]"></i>
-                  0
-                </span>
-              </div>
-            </article>`;
-    parent2.insertAdjacentHTML("beforeend", html1);
-  });
   parent.innerHTML = html;
 }
 
@@ -195,12 +159,12 @@ async function PostData() {
   user = await res.json();
   repo = await res1.json();
   const users = await res2.json();
-  console.log(users)
-  const errorUser = users.find(u => u.username === user.login);
+  console.log(users);
+  const errorUser = users.find((u) => u.username === user.login);
   if (errorUser) {
-     return;
+    return;
   }
- 
+
   try {
     const res3 = await fetch(MOCK_API, {
       method: "POST",
@@ -227,4 +191,89 @@ export function Submit(parent) {
     if (!btn) return;
     PostData();
   });
+}
+
+function SerchRepo(repos) {
+  let valueSerch = "";
+  let valueLongage = "all";
+
+  searchRepo.addEventListener("input", (e) => {
+    valueSerch = e.target.value;
+    result();
+  });
+
+  longage.forEach((log) => {
+    log.addEventListener("click", (e) => {
+      valueLongage = e.currentTarget.dataset.longage;
+      result();
+    });
+  });
+
+  function result() {
+    const filterRepos = repos.filter((repo) => {
+      const resultSerch = repo.name
+        .toLowerCase()
+        .includes(valueSerch.toLowerCase());
+
+      const resultFilter =
+        valueLongage === "all" ||
+        repo.language?.toLowerCase() === valueLongage.toLowerCase();
+
+      return resultSerch && resultFilter;
+    });
+
+    p2.innerHTML = "";
+
+    filterRepos.forEach((re) => {
+      const html1 = `<article
+    data-repo-id="${re.id}"
+              class="relative flex flex-col gap-4 rounded-xl border border-white/[0.07] bg-white/[0.03] p-4 transition-all duration-300 group-hover:border-[#D552A3]/20 group-hover:bg-white/[0.05]"
+            >
+              <div class="flex items-center justify-between">
+                <h3
+                  class="text-base font-bold text-white transition-colors duration-300 group-hover:text-[#E879C0]"
+                >
+                  ${re.name}
+                </h3>
+
+                <i class="fa-solid fa-code-branch text-sm text-[#D552A3]"></i>
+              </div>
+
+              <p class="text-sm text-white/40">Aucune description.</p>
+
+              <div
+                class="flex flex-wrap items-center gap-4 border-t border-white/[0.07] pt-3"
+              >
+                <span class="flex items-center gap-2 text-xs text-white/60">
+                  <i class="fa-solid fa-circle text-[7px] text-[#D552A3]"></i>
+                  ${re.language}
+                </span>
+
+                <span class="flex items-center gap-2 text-xs text-white/60">
+                  <i class="fa-regular fa-star text-[#E879C0]"></i>
+                  ${re.stargazers_count}
+                </span>
+
+                <span class="flex items-center gap-2 text-xs text-white/60">
+                  <i class="fa-solid fa-code-branch text-[#E879C0]"></i>
+                  0
+                </span>
+              </div>
+            </article>`;
+      p2.insertAdjacentHTML("beforeend", html1);
+    });
+
+    if (filterRepos.length === 0) {
+      p2.innerHTML = `
+    <div class="col-span-full py-8 text-center text-gray-400">
+      <i class="fa-solid fa-magnifying-glass mb-3 text-2xl text-[#D552A3]"></i>
+      <p>Aucun repository trouvé</p>
+    </div>
+  `;
+    }
+
+    return filterRepos;
+  }
+
+  return result();
 }

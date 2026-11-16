@@ -103,7 +103,7 @@
             />
 
             <span
-            id="submit"
+              id="submit"
               class="shrink-0 text-xs text-white border border-white/10 rounded-lg px-3 py-2 cursor-pointer"
             >
               Search
@@ -113,7 +113,8 @@
       </section>
 
       <section class="flex gap-10 p-10">
-        <div id="profile"
+        <div
+          id="profile"
           class="group relative z-20 flex w-full max-w-sm flex-col items-center gap-5 overflow-hidden rounded-2xl border border-white/10 bg-[#100B16]/80 p-6 text-white shadow-[0_8px_35px_rgba(142,30,162,0.18)] backdrop-blur-xl transition-all duration-300 hover:-translate-y-2 hover:border-[#D552A3]/40 hover:shadow-[0_15px_45px_rgba(142,30,162,0.3)]"
         >
           <div
@@ -190,7 +191,63 @@
             class="pointer-events-none absolute -right-16 -top-16 h-40 w-40 rounded-full bg-[#8E1EA2]/10 blur-3xl transition-all duration-500 group-hover:bg-[#D552A3]/20"
           ></div>
 
-          
+          <div class="relative w-full group flex items-center justify-between gap-3">
+            <div
+              class="absolute w-2/3 -inset-[1px] rounded-2xl bg-gradient-to-r from-[#8E1EA2] to-[#D552A3] opacity-30 blur-md transition duration-300 group-focus-within:opacity-70"
+            ></div>
+
+            <div
+              class="relative flex w-2/3 items-center gap-3 rounded-2xl border border-white/10 bg-white/[0.06] backdrop-blur-xl px-5 py-4 transition-all duration-300 group-focus-within:border-[#D552A3]/50 group-focus-within:bg-white/[0.09]"
+            >
+              <svg
+                class="w-5 h-5 text-[#D552A3] shrink-0"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+              >
+                <circle cx="11" cy="11" r="7" stroke-width="2" />
+                <path d="m16 16 4 4" stroke-width="2" stroke-linecap="round" />
+              </svg>
+
+              <input
+                type="search"
+                name="search"
+                id="search-search-repo"
+                placeholder="Search any users..."
+                class="w-full min-w-0 bg-transparent outline-none text-white placeholder:text-gray-500 text-sm tracking-wide"
+              />
+            </div>
+
+            <ul class="relative flex flex-wrap items-center gap-3 mt-3">
+              <li
+              data-longage="JavaScript"
+                class="longage cursor-pointer rounded-xl border border-[#8E1EA2]/30 bg-[#8E1EA2]/10 px-5 py-2.5 text-sm font-medium text-gray-300 transition-all duration-300 hover:-translate-y-1 hover:border-[#D552A3]/60 hover:bg-gradient-to-r hover:from-[#8E1EA2]/30 hover:to-[#D552A3]/20 hover:text-white hover:shadow-[0_5px_20px_rgba(213,82,163,0.2)]"
+              >
+                JavaScript
+              </li>
+
+              <li
+              data-longage="Java"
+                class="longage cursor-pointer rounded-xl border border-[#8E1EA2]/30 bg-[#8E1EA2]/10 px-5 py-2.5 text-sm font-medium text-gray-300 transition-all duration-300 hover:-translate-y-1 hover:border-[#D552A3]/60 hover:bg-gradient-to-r hover:from-[#8E1EA2]/30 hover:to-[#D552A3]/20 hover:text-white hover:shadow-[0_5px_20px_rgba(213,82,163,0.2)]"
+              >
+                Java
+              </li>
+
+              <li
+              data-longage="Html"
+                class="longage cursor-pointer rounded-xl border border-[#8E1EA2]/30 bg-[#8E1EA2]/10 px-5 py-2.5 text-sm font-medium text-gray-300 transition-all duration-300 hover:-translate-y-1 hover:border-[#D552A3]/60 hover:bg-gradient-to-r hover:from-[#8E1EA2]/30 hover:to-[#D552A3]/20 hover:text-white hover:shadow-[0_5px_20px_rgba(213,82,163,0.2)]"
+              >
+                HTML
+              </li>
+
+              <li
+              data-longage="all"
+                class="longage cursor-pointer rounded-xl border border-[#8E1EA2]/30 bg-[#8E1EA2]/10 px-5 py-2.5 text-sm font-medium text-gray-300 transition-all duration-300 hover:-translate-y-1 hover:border-[#D552A3]/60 hover:bg-gradient-to-r hover:from-[#8E1EA2]/30 hover:to-[#D552A3]/20 hover:text-white hover:shadow-[0_5px_20px_rgba(213,82,163,0.2)]"
+              >
+                All
+              </li>
+            </ul>
+          </div>
 
           <div class="relative flex items-center justify-between">
             <h2 class="text-sm font-semibold tracking-wider text-white/70">
@@ -198,8 +255,10 @@
             </h2>
           </div>
 
-          <div id="parent2" class="grid grid-cols-2 gap-5 overflow-y-auto max-h-[500px] scrollbar-none">            
-          </div>
+          <div
+            id="parent2"
+            class="grid grid-cols-2 gap-5 overflow-y-auto max-h-[500px] scrollbar-none"
+          ></div>
         </div>
       </section>
     </main>
