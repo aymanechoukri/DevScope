@@ -1,4 +1,4 @@
-import { FetchData, getData, modale, updateCondidate } from "./shortlist.js";
+import { deletedData, FetchData, getData, modale, updateCondidate } from "./shortlist.js";
 
 const article = document.querySelector("#articls");
 const popap = document.querySelector("#popap");
@@ -13,3 +13,4 @@ FetchData(article);
 modale(colsOpan, popap);
 console.log(getData())
 updateCondidate(article, popap, name, des, log, submit)
+deletedData(article);

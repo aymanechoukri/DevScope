@@ -21,7 +21,7 @@ export async function FetchData(parent) {
   data.forEach((user) => {
     const html = `
         <article
-            class="group relative z-10 overflow-hidden rounded-2xl border border-white/10 bg-white/[0.04] p-5 transition-all duration-300 hover:-translate-y-1 hover:border-[#D552A3]/40 hover:bg-white/[0.06] hover:shadow-[0_8px_35px_rgba(142,30,162,0.18)] md:p-6"
+            class="group  relative z-10  rounded-2xl border border-white/10 bg-white/[0.04] p-5 transition-all duration-300 hover:-translate-y-1 hover:border-[#D552A3]/40 hover:bg-white/[0.06] hover:shadow-[0_8px_35px_rgba(142,30,162,0.18)] md:p-6"
           >
             <div
               class="flex flex-col justify-between gap-6 xl:flex-row xl:items-center"
@@ -98,8 +98,9 @@ export async function FetchData(parent) {
                   </button>
 
                   <button
+                  data-deleted=${user.id}
                     type="button"
-                    class="rounded-xl border border-white/10 bg-white/[0.04] px-4 py-2.5 text-xs font-bold text-gray-400 transition-all duration-300 hover:border-red-500/40 hover:bg-red-500/10 hover:text-red-400"
+                    class="rounded-xl cursor-pointer border border-white/10 bg-white/[0.04] px-4 py-2.5 text-xs font-bold text-gray-400 transition-all duration-300 hover:border-red-500/40 hover:bg-red-500/10 hover:text-red-400"
                   >
                     <i class="fa-solid fa-trash-can mr-1"></i>
                     Supprimer
@@ -210,4 +211,28 @@ export async function updateCondidate(article, popap, name, des, log, submit) {
   });
 }
 
+export async function deletedData(article) {
+  let idUser = null;
 
+  article.addEventListener("click", async (e) => {
+    const deketdU = e.target.closest("[data-deleted]");
+    if(!deketdU) return;
+
+    idUser = Number(deketdU.dataset.deleted);
+    console.log(idUser);
+
+    try {
+      const res = await fetch(`${MOCK_API}/${idUser}`, {
+        method: "DELETE",
+      })
+
+      if (!res.ok) {
+        throw Error("user introvable");
+      }
+    } catch(err) {
+      console.error(err);
+    }
+
+    FetchData(article);
+  }) 
+}
