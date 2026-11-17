@@ -2,25 +2,24 @@ import { MOCK_API } from "./api.js";
 
 let data = null;
 
-
 export async function FetchData(parent) {
-    refrsh(parent)
-    try {
-        const res = await fetch(MOCK_API)
-        if(!res.ok) {
-            throw new error("User Not Found");
-        }
-        data = await res.json()
-    } catch (error) {
-        console.error(error);
-    } finally {
-        parent.innerHTML = "";
+  refrsh(parent);
+  try {
+    const res = await fetch(MOCK_API);
+    if (!res.ok) {
+      throw new error("User Not Found");
     }
-
+    data = await res.json();
+  } catch (error) {
+    console.error(error);
+  } finally {
     parent.innerHTML = "";
+  }
 
-    data.forEach(user => {
-        const html = `
+  parent.innerHTML = "";
+
+  data.forEach((user) => {
+    const html = `
         <article
             class="group relative z-10 overflow-hidden rounded-2xl border border-white/10 bg-white/[0.04] p-5 transition-all duration-300 hover:-translate-y-1 hover:border-[#D552A3]/40 hover:bg-white/[0.06] hover:shadow-[0_8px_35px_rgba(142,30,162,0.18)] md:p-6"
           >
@@ -91,8 +90,8 @@ export async function FetchData(parent) {
 
                   <button
                     type="button"
-                    data-deleted=${user.id};
-                    class="rounded-xl border border-[#D552A3]/30 bg-gradient-to-r from-[#8E1EA2]/20 to-[#D552A3]/10 px-4 py-2.5 text-xs font-bold text-[#F49ACD] transition-all duration-300 hover:border-[#D552A3]/60 hover:from-[#8E1EA2]/40 hover:to-[#D552A3]/30 hover:shadow-[0_0_20px_rgba(213,82,163,0.15)]"
+                    data-update=${user.id}
+                    class="rounded-xl cursor-pointer border border-[#D552A3]/30 bg-gradient-to-r from-[#8E1EA2]/20 to-[#D552A3]/10 px-4 py-2.5 text-xs font-bold text-[#F49ACD] transition-all duration-300 hover:border-[#D552A3]/60 hover:from-[#8E1EA2]/40 hover:to-[#D552A3]/30 hover:shadow-[0_0_20px_rgba(213,82,163,0.15)]"
                   >
                     <i class="fa-solid fa-pen-to-square mr-1"></i>
                     Modifier
@@ -108,13 +107,13 @@ export async function FetchData(parent) {
                 </div>
               </div>
             </article>
-        `
-        parent.insertAdjacentHTML("beforeend", html)
-    })
+        `;
+    parent.insertAdjacentHTML("beforeend", html);
+  });
 }
 
 function refrsh(ref) {
-    ref.innerHTML = `
+  ref.innerHTML = `
         <p class="text-purple-600 text-sm font-medium bg-purple-500/10 border border-purple-500/20 rounded-lg px-4 py-3 text-center animate-pulse">
             <i class="fa-solid fa-spinner fa-spin mr-2"></i>
             Loading...
@@ -122,9 +121,93 @@ function refrsh(ref) {
     `;
 }
 
-
 export function modale(button, popap) {
-      button.addEventListener("click", () => {
-          popap.hidden = true;
-      })
+  button.addEventListener("click", () => {
+    popap.hidden = true;
+  });
 }
+
+export async function getData() {
+  try {
+    const res = await fetch(MOCK_API);
+
+    if (!res.ok) {
+      throw console.error("user not found");
+    }
+
+    const users = await res.json();
+    return users;
+  } catch (err) {
+    console.error(err);
+  }
+}
+
+export async function updateCondidate(article, popap, name, des, log, submit) {
+  let userId = null;
+
+  article.addEventListener("click", async (e) => {
+    const updateID = e.target.closest("[data-update]");
+    if (!updateID) return;
+    userId = Number(updateID.dataset.update);
+    console.log(userId);
+    popap.hidden = false;
+      const data = await getData();
+
+
+    const findUser = data.find((u) => Number(u.id) === userId);
+    console.log(findUser);
+
+    name.value = findUser.username;
+    des.value = findUser.description;
+    log.value = findUser.language;
+  });
+
+  submit.addEventListener("click", async () => {
+    let isValid = true;
+
+    if (name.value.trim() === "") {
+      isValid = false;
+    }
+
+    if (des.value.trim() === "") {
+      isValid = false;
+    }
+
+    if (log.value.trim() === "") {
+      isValid = false;
+    }
+
+    if (!isValid) {
+      return;
+    }
+    try {
+      const res = await fetch(`${MOCK_API}/${userId}`, {
+        method: "PUT",
+        headers: {
+          "content-type": "application/json",
+        },
+        body: JSON.stringify({
+          username: name.value,
+          description: des.value,
+          language: log.value,
+        }),
+      });
+
+      const updatedUser = await res.json();
+      console.log(updatedUser);
+
+      name.value = "";
+      des.value = "";
+      log.value = "";
+
+      popap.hidden = true;
+
+      await FetchData(article);
+      
+    } catch (err) {
+      console.error(err);
+    }
+  });
+}
+
+
