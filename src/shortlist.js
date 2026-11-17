@@ -211,20 +211,35 @@ export async function updateCondidate(article, popap, name, des, log, submit) {
   });
 }
 
-export async function deletedData(article) {
+export function modaleDeletd(button, popap) {
+  button.addEventListener("click", () => {
+    popap.hidden = true;
+    
+  });
+}
+
+export async function deletedData(article, popap, deletedB) {
   let idUser = null;
 
   article.addEventListener("click", async (e) => {
     const deketdU = e.target.closest("[data-deleted]");
     if(!deketdU) return;
 
+    popap.hidden = false;
+
     idUser = Number(deketdU.dataset.deleted);
     console.log(idUser);
+  }) 
 
-    try {
+
+  deletedB.addEventListener("click", async () => {
+      try {
       const res = await fetch(`${MOCK_API}/${idUser}`, {
         method: "DELETE",
       })
+
+      FetchData(article);
+      popap.hidden = true;
 
       if (!res.ok) {
         throw Error("user introvable");
@@ -232,7 +247,5 @@ export async function deletedData(article) {
     } catch(err) {
       console.error(err);
     }
-
-    FetchData(article);
-  }) 
+  })
 }
