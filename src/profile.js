@@ -179,7 +179,12 @@ async function PostData() {
         language: repo.find((r) => r.language)?.language || "Unknown",
         description: user.bio || "No description available.",
         addedAt: new Date().toISOString().split("T")[0],
-        status: " REFUSÉ"
+        status: "REFUSÉ",
+        star1: "yellow",
+        star2: "yellow",
+        star3: "yellow",
+        star4: "",
+        star5: ""
       }),
     });
     const data = res3.json();

@@ -19,6 +19,13 @@ export async function FetchData(parent) {
   parent.innerHTML = "";
 
   data.forEach((user) => {
+    const rating = [
+      user.star1,
+      user.star2,
+      user.star3,
+      user.star4,
+      user.star5,
+    ].filter((star) => star === "yellow").length;
     const html = `
         <article
             class="group  relative z-10  rounded-2xl border border-white/10 bg-white/[0.04] p-5 transition-all duration-300 hover:-translate-y-1 hover:border-[#D552A3]/40 hover:bg-white/[0.06] hover:shadow-[0_8px_35px_rgba(142,30,162,0.18)] md:p-6"
@@ -70,14 +77,26 @@ export async function FetchData(parent) {
                   class="flex items-center gap-3 rounded-xl border border-white/10 bg-black/20 px-4 py-3"
                 >
                   <div class="flex items-center gap-1 text-sm">
-                    <i class="fa-solid fa-star text-yellow-400"></i>
-                    <i class="fa-solid fa-star text-yellow-400"></i>
-                    <i class="fa-solid fa-star text-yellow-400"></i>
-                    <i class="fa-regular fa-star text-gray-600"></i>
-                    <i class="fa-regular fa-star text-gray-600"></i>
-                  </div>
-                  <span class="text-xs font-semibold text-gray-400">3/5</span>
-                </div>
+                      ${[1, 2, 3, 4, 5]
+                        .map(
+                          (num) => `
+                        <i
+                          data-star="${user.id}"
+                          data-star-index="${num}"
+                          class="${
+                            user[`star${num}`] === "yellow"
+                              ? "text-yellow-400"
+                              : "text-gray-600"
+                          } fa-solid fa-star cursor-pointer">
+                        </i>
+                      `,
+                        )
+                        .join("")}
+                    </div>
+
+                    <span class="text-xs font-semibold text-gray-400">
+                      ${rating}/5
+                    </span>
 
                 <div class="flex flex-wrap items-center gap-2">
                   <button
@@ -86,7 +105,7 @@ export async function FetchData(parent) {
                     data-status=${user.id}
                     class="${user.status === "REFUSÉ" ? "rounded-xl cursor-pointer border border-red-500/20 bg-red-500/10 px-4 py-2.5 text-xs font-bold text-red-400 transition-all duration-300 hover:border-red-500/50 hover:bg-red-500/20 hover:shadow-[0_0_15px_rgba(239,68,68,0.15)]" : "rounded-xl cursor-pointer border border-green-500/20 bg-green-500/10 px-4 py-2.5 text-xs font-bold text-green-400 transition-all duration-300 hover:border-green-500/50 hover:bg-green-500/20 hover:shadow-[0_0_15px_rgba(239,68,68,0.15)]"}"
                   >
-                    ${user.status === "REFUSÉ" ? `<i class="fa-solid fa-xmark mr-1"></i> `: `<i class="fa-solid fa-check"></i>`}
+                    ${user.status === "REFUSÉ" ? `<i class="fa-solid fa-xmark mr-1"></i> ` : `<i class="fa-solid fa-check"></i>`}
                     ${user.status}
                   </button>
 
@@ -260,7 +279,8 @@ export async function changeStatus(article) {
 
     console.log(userId);
 
-    const newStatus = btnStatus.dataset.value === "REFUSÉ" ? "A CONTACTER" : "REFUSÉ";
+    const newStatus =
+      btnStatus.dataset.value === "REFUSÉ" ? "A CONTACTER" : "REFUSÉ";
 
     try {
       const res = await fetch(`${MOCK_API}/${userId}`, {
@@ -280,6 +300,47 @@ export async function changeStatus(article) {
       console.log(dat);
 
       btnStatus.dataset.value = dat.status;
+
+      await FetchData(article);
+    } catch (err) {
+      console.error(err);
+    }
+  });
+}
+
+export function stars(article) {
+  article.addEventListener("click", async (e) => {
+    const btnStar = e.target.closest("[data-star-index]");
+    if (!btnStar) return;
+
+    const userId = Number(btnStar.dataset.star);
+    const selectedRating = Number(btnStar.dataset.starIndex);
+
+    try {
+      const users = await getData();
+
+      const user = users.find((u) => Number(u.id) === userId);
+
+      if (!user) throw new Error("User not found");
+
+      const ratingData = {};
+
+      for (let i = 1; i <= 5; i++) {
+        ratingData[`star${i}`] = i <= selectedRating ? "yellow" : "";
+      }
+
+      const res = await fetch(`${MOCK_API}/${userId}`, {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          ...user,
+          ...ratingData,
+        }),
+      });
+
+      if (!res.ok) throw new Error("Update failed");
 
       await FetchData(article);
     } catch (err) {
