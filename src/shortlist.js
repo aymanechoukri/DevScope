@@ -82,10 +82,12 @@ export async function FetchData(parent) {
                 <div class="flex flex-wrap items-center gap-2">
                   <button
                     type="button"
-                    class="rounded-xl border border-red-500/20 bg-red-500/10 px-4 py-2.5 text-xs font-bold text-red-400 transition-all duration-300 hover:border-red-500/50 hover:bg-red-500/20 hover:shadow-[0_0_15px_rgba(239,68,68,0.15)]"
+                    data-value=${user.status}
+                    data-status=${user.id}
+                    class="${user.status === "REFUSÉ" ? "rounded-xl cursor-pointer border border-red-500/20 bg-red-500/10 px-4 py-2.5 text-xs font-bold text-red-400 transition-all duration-300 hover:border-red-500/50 hover:bg-red-500/20 hover:shadow-[0_0_15px_rgba(239,68,68,0.15)]" : "rounded-xl cursor-pointer border border-green-500/20 bg-green-500/10 px-4 py-2.5 text-xs font-bold text-green-400 transition-all duration-300 hover:border-green-500/50 hover:bg-green-500/20 hover:shadow-[0_0_15px_rgba(239,68,68,0.15)]"}"
                   >
-                    <i class="fa-solid fa-xmark mr-1"></i>
-                    REFUSÉ
+                    ${user.status === "REFUSÉ" ? `<i class="fa-solid fa-xmark mr-1"></i> `: `<i class="fa-solid fa-check"></i>`}
+                    ${user.status}
                   </button>
 
                   <button
@@ -152,8 +154,7 @@ export async function updateCondidate(article, popap, name, des, log, submit) {
     userId = Number(updateID.dataset.update);
     console.log(userId);
     popap.hidden = false;
-      const data = await getData();
-
+    const data = await getData();
 
     const findUser = data.find((u) => Number(u.id) === userId);
     console.log(findUser);
@@ -204,7 +205,6 @@ export async function updateCondidate(article, popap, name, des, log, submit) {
       popap.hidden = true;
 
       await FetchData(article);
-      
     } catch (err) {
       console.error(err);
     }
@@ -214,7 +214,6 @@ export async function updateCondidate(article, popap, name, des, log, submit) {
 export function modaleDeletd(button, popap) {
   button.addEventListener("click", () => {
     popap.hidden = true;
-    
   });
 }
 
@@ -223,20 +222,19 @@ export async function deletedData(article, popap, deletedB) {
 
   article.addEventListener("click", async (e) => {
     const deketdU = e.target.closest("[data-deleted]");
-    if(!deketdU) return;
+    if (!deketdU) return;
 
     popap.hidden = false;
 
     idUser = Number(deketdU.dataset.deleted);
     console.log(idUser);
-  }) 
-
+  });
 
   deletedB.addEventListener("click", async () => {
-      try {
+    try {
       const res = await fetch(`${MOCK_API}/${idUser}`, {
         method: "DELETE",
-      })
+      });
 
       FetchData(article);
       popap.hidden = true;
@@ -244,8 +242,48 @@ export async function deletedData(article, popap, deletedB) {
       if (!res.ok) {
         throw Error("user introvable");
       }
-    } catch(err) {
+    } catch (err) {
       console.error(err);
     }
-  })
+  });
+}
+
+export async function changeStatus(article) {
+  const data = await getData();
+  let userId = null;
+
+  article.addEventListener("click", async (e) => {
+    const btnStatus = e.target.closest("[data-status]");
+    if (!btnStatus) return;
+
+    userId = Number(btnStatus.dataset.status);
+
+    console.log(userId);
+
+    const newStatus = btnStatus.dataset.value === "REFUSÉ" ? "A CONTACTER" : "REFUSÉ";
+
+    try {
+      const res = await fetch(`${MOCK_API}/${userId}`, {
+        method: "PUT",
+        headers: {
+          "content-type": "application/json",
+        },
+        body: JSON.stringify({
+          status: newStatus,
+        }),
+      });
+
+      if (!res.ok) {
+        throw new Error("user introvable");
+      }
+      const dat = await res.json();
+      console.log(dat);
+
+      btnStatus.dataset.value = dat.status;
+
+      await FetchData(article);
+    } catch (err) {
+      console.error(err);
+    }
+  });
 }

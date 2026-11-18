@@ -138,6 +138,8 @@ async function FetchData(user, parent) {
   }
 }
 
+
+
 export function SerchUsers(serch, serchValue, parent) {
   serchValue.addEventListener("input", (e) => {
     username = e.target.value;
@@ -177,6 +179,7 @@ async function PostData() {
         language: repo.find((r) => r.language)?.language || "Unknown",
         description: user.bio || "No description available.",
         addedAt: new Date().toISOString().split("T")[0],
+        status: " REFUSÉ"
       }),
     });
     const data = res3.json();
