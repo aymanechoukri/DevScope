@@ -1,6 +1,10 @@
 import { MOCK_API } from "./api.js";
+const search = document.querySelector("#search");
+const status = document.querySelectorAll(".status");
 
 let data = null;
+let valueSearch = "";
+let valueFilter = "Tous";
 
 export async function FetchData(parent) {
   refrsh(parent);
@@ -17,8 +21,10 @@ export async function FetchData(parent) {
   }
 
   parent.innerHTML = "";
+  ValueFilter(parent);
+  const resultData = await searchUser(data);
 
-  data.forEach((user) => {
+  resultData.forEach((user) => {
     const rating = [
       user.star1,
       user.star2,
@@ -171,12 +177,10 @@ export async function updateCondidate(article, popap, name, des, log, submit) {
     const updateID = e.target.closest("[data-update]");
     if (!updateID) return;
     userId = Number(updateID.dataset.update);
-    console.log(userId);
     popap.hidden = false;
     const data = await getData();
 
     const findUser = data.find((u) => Number(u.id) === userId);
-    console.log(findUser);
 
     name.value = findUser.username;
     des.value = findUser.description;
@@ -215,7 +219,6 @@ export async function updateCondidate(article, popap, name, des, log, submit) {
       });
 
       const updatedUser = await res.json();
-      console.log(updatedUser);
 
       name.value = "";
       des.value = "";
@@ -223,7 +226,7 @@ export async function updateCondidate(article, popap, name, des, log, submit) {
 
       popap.hidden = true;
 
-      await FetchData(article);
+      await "FetchData"(article);
     } catch (err) {
       console.error(err);
     }
@@ -246,7 +249,6 @@ export async function deletedData(article, popap, deletedB) {
     popap.hidden = false;
 
     idUser = Number(deketdU.dataset.deleted);
-    console.log(idUser);
   });
 
   deletedB.addEventListener("click", async () => {
@@ -277,8 +279,6 @@ export async function changeStatus(article) {
 
     userId = Number(btnStatus.dataset.status);
 
-    console.log(userId);
-
     const newStatus =
       btnStatus.dataset.value === "REFUSÉ" ? "A CONTACTER" : "REFUSÉ";
 
@@ -297,7 +297,6 @@ export async function changeStatus(article) {
         throw new Error("user introvable");
       }
       const dat = await res.json();
-      console.log(dat);
 
       btnStatus.dataset.value = dat.status;
 
@@ -346,5 +345,28 @@ export function stars(article) {
     } catch (err) {
       console.error(err);
     }
+  });
+}
+
+function searchUser(user) {
+  return user.filter((u) => {
+    const search = u.username.toLowerCase().includes(valueSearch.toLowerCase());
+    const filterStatus = valueFilter === "Tous" || u.status === valueFilter;
+
+    return search && filterStatus;
+  });
+}
+
+function ValueFilter(article) {
+  search.addEventListener("input", (e) => {
+    valueSearch = e.target.value;
+    FetchData(article);
+  });
+
+  status.forEach((u) => {
+    u.addEventListener("click", () => {
+      valueFilter = u.dataset.status;
+      FetchData(article);
+    });
   });
 }

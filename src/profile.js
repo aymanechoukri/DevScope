@@ -138,8 +138,6 @@ async function FetchData(user, parent) {
   }
 }
 
-
-
 export function SerchUsers(serch, serchValue, parent) {
   serchValue.addEventListener("input", (e) => {
     username = e.target.value;
@@ -184,7 +182,7 @@ async function PostData() {
         star2: "yellow",
         star3: "yellow",
         star4: "",
-        star5: ""
+        star5: "",
       }),
     });
     const data = res3.json();

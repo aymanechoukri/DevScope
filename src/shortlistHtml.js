@@ -1,4 +1,13 @@
-import { changeStatus, deletedData, FetchData, getData, modale, modaleDeletd, stars, updateCondidate } from "./shortlist.js";
+import {
+  changeStatus,
+  deletedData,
+  FetchData,
+  getData,
+  modale,
+  modaleDeletd,
+  stars,
+  updateCondidate,
+} from "./shortlist.js";
 
 const article = document.querySelector("#articls");
 const popap = document.querySelector("#popap");
@@ -15,9 +24,9 @@ const confirmDelete = document.querySelector("#confirmDelete");
 
 FetchData(article);
 modale(colsOpan, popap);
-console.log(getData())
-updateCondidate(article, popap, name, des, log, submit)
+console.log(getData());
+updateCondidate(article, popap, name, des, log, submit);
 deletedData(article, deletePopap, confirmDelete);
 modaleDeletd(cancelDelete, deletePopap);
 changeStatus(article);
-stars(article)
+stars(article);
