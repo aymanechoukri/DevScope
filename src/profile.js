@@ -30,9 +30,14 @@ export async function ShowProfile(parent, parent2) {
     throw new eroor("user introvable");
   }
 
-  const res = await fetch(`${GITHUB_API}/${username}`);
+  const repsot = await Promise.all([
+    fetch(`${GITHUB_API}/${username}`),
+    fetch(`${GITHUB_API}/${username}/repos`),
+  ]);
 
-  const res1 = await fetch(`${GITHUB_API}/${username}/repos`);
+  const res = repsot[0];
+
+  const res1 = repsot[1];
   if (!res.ok || !res1.ok) {
     parent.innerHTML = `
         <p class="text-red-500 text-sm font-semibold bg-red-500/10 border border-red-500/20 rounded-lg p-3 text-center">
