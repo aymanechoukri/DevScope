@@ -24,7 +24,6 @@ const confirmDelete = document.querySelector("#confirmDelete");
 
 FetchData(article);
 modale(colsOpan, popap);
-console.log(getData());
 updateCondidate(article, popap, name, des, log, submit);
 deletedData(article, deletePopap, confirmDelete);
 modaleDeletd(cancelDelete, deletePopap);

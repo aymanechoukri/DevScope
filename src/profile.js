@@ -1,4 +1,5 @@
 import { GITHUB_API, MOCK_API } from "./api.js";
+import { setCash } from "./cash.js";
 import { longage, searchRepo } from "./profileHtml.js";
 
 const params = new URLSearchParams(window.location.search);
@@ -159,6 +160,15 @@ async function PostData() {
   user = await res.json();
   repo = await res1.json();
   const users = await res2.json();
+
+  const userExists = users.some(
+    (u) => u.username.toLowerCase() === user.login.toLowerCase(),
+  );
+
+  if (userExists) {
+    console.log("User already exists");
+    return;
+  }
   console.log(users);
   const errorUser = users.find((u) => u.username === user.login);
   if (errorUser) {
@@ -185,7 +195,9 @@ async function PostData() {
         star5: "",
       }),
     });
-    const data = res3.json();
+    const newUser = await res3.json();
+
+    setCash("user", [...users, newUser]);
   } catch (error) {
     console.error(error);
   }

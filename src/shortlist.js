@@ -1,4 +1,5 @@
 import { MOCK_API } from "./api.js";
+import { getCash, setCash } from "./cash.js";
 const search = document.querySelector("#search");
 const status = document.querySelectorAll(".status");
 
@@ -9,13 +10,28 @@ let valueFilter = "Tous";
 export async function FetchData(parent) {
   refrsh(parent);
   try {
-    const res = await fetch(MOCK_API);
-    if (!res.ok) {
-      throw new error("User Not Found");
+    const cachedData = getCash("user");
+
+    if (cachedData !== null) {
+      data = cachedData;
+      console.log("Data from Cache");
+    } else {
+      const res = await fetch(MOCK_API);
+
+      if (!res.ok) {
+        throw new Error("User Not Found");
+      }
+
+      data = await res.json();
+      console.log(data);
+
+      setCash("user", data);
+
+      console.log("Data from API");
     }
-    data = await res.json();
   } catch (error) {
     console.error(error);
+    return;
   } finally {
     parent.innerHTML = "";
   }
@@ -157,14 +173,24 @@ export function modale(button, popap) {
 
 export async function getData() {
   try {
+    const cachedData = getCash("user");
+
+    if (cachedData !== null) {
+      console.log("Data from Cache");
+      return cachedData;
+    }
     const res = await fetch(MOCK_API);
 
     if (!res.ok) {
-      throw console.error("user not found");
+      throw new Error("User Not Found");
     }
 
-    const users = await res.json();
-    return users;
+    const data = await res.json();
+
+    setCash("user", data);
+
+    console.log("Data from API");
+    return data;
   } catch (err) {
     console.error(err);
   }
@@ -219,6 +245,7 @@ export async function updateCondidate(article, popap, name, des, log, submit) {
       });
 
       const updatedUser = await res.json();
+      localStorage.removeItem("user");
 
       name.value = "";
       des.value = "";
@@ -226,7 +253,7 @@ export async function updateCondidate(article, popap, name, des, log, submit) {
 
       popap.hidden = true;
 
-      await "FetchData"(article);
+      await FetchData(article);
     } catch (err) {
       console.error(err);
     }
@@ -257,12 +284,16 @@ export async function deletedData(article, popap, deletedB) {
         method: "DELETE",
       });
 
-      FetchData(article);
-      popap.hidden = true;
-
       if (!res.ok) {
         throw Error("user introvable");
       }
+
+      localStorage.removeItem("user");
+
+      await FetchData(article);
+      popap.hidden = true;
+
+      const data = await res.json();
     } catch (err) {
       console.error(err);
     }
@@ -297,6 +328,7 @@ export async function changeStatus(article) {
         throw new Error("user introvable");
       }
       const dat = await res.json();
+      localStorage.removeItem("user");
 
       btnStatus.dataset.value = dat.status;
 
@@ -340,6 +372,9 @@ export function stars(article) {
       });
 
       if (!res.ok) throw new Error("Update failed");
+
+      const data = await res.json();
+      localStorage.removeItem("user");
 
       await FetchData(article);
     } catch (err) {
