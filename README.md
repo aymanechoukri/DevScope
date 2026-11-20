@@ -1,25 +1,46 @@
-# DevScope
+# DevScope v2
 
-DevScope is a lightweight web application that helps recruiters and teams explore GitHub developer profiles, review their public repositories, and save interesting developers to a shortlist.
+DevScope est une application web destinée aux recruteurs. Elle permet de rechercher des développeurs sur GitHub, de consulter leurs profils et dépôts publics, puis de gérer une shortlist de candidats.
 
-## Features
+Cette version 2 améliore le suivi des candidats, facilite l'exploration des dépôts et ajoute un système de cache pour limiter les requêtes répétées.
 
-- **Search GitHub users** by username.
-- **Explore developer profiles**, including their avatar, location, public repository count, followers, and following.
-- **Review public repositories** with details such as repository name, primary language, and stars.
-- **Build a candidate shortlist** by saving selected GitHub users.
-- **View saved candidates** on a dedicated shortlist page, including their GitHub username, avatar, language, and date added.
+## Fonctionnalités
 
-## Tech Stack
+### Recherche et profils GitHub
+- Rechercher un développeur à partir de son nom d'utilisateur GitHub.
+- Consulter les informations publiques du profil : avatar, localisation, dépôts, abonnés et abonnements.
+- Afficher les dépôts publics avec leur langage principal et leur nombre d'étoiles.
+- Rechercher un dépôt par son nom.
+- Filtrer les dépôts par langage.
+- Combiner la recherche et le filtre pour trouver rapidement un dépôt.
 
-- HTML5
-- JavaScript (ES Modules)
-- Tailwind CSS (browser CDN)
-- GitHub REST API
-- MockAPI for storing shortlisted candidates
-- Axios (listed as a project dependency)
+### Gestion de la shortlist
+- Ajouter un développeur à la shortlist.
+- Consulter les candidats enregistrés.
+- Modifier les informations d'un candidat.
+- Supprimer un candidat après confirmation.
+- Gérer le statut du candidat et sa note sur 5.
+- Rechercher et filtrer les candidats selon leur statut.
 
-## Project Structure
+### Cache et performances
+- Enregistrer les données de la shortlist dans `localStorage`.
+- Lire les données depuis le cache lorsqu'elles sont encore valides.
+- Éviter des appels API inutiles et accélérer l'affichage des données déjà consultées.
+
+> Le cache implémenté dans cette version utilise une durée de validité de **5 minutes**.
+
+## Technologies utilisées
+
+- **HTML5** — structure des pages.
+- **Tailwind CSS** — mise en forme de l'interface.
+- **JavaScript ES6+** — logique applicative et manipulation du DOM.
+- **JavaScript ES Modules** — organisation du code en modules.
+- **GitHub REST API** — récupération des profils et dépôts publics.
+- **MockAPI** — stockage et gestion des candidats de la shortlist.
+- **localStorage** — mise en cache des données côté navigateur.
+- **Fetch API / async-await** — communication avec les API.
+
+## Structure du projet
 
 ```text
 DevScope/
@@ -29,6 +50,7 @@ DevScope/
 │   └── style.css
 ├── src/
 │   ├── api.js
+│   ├── cash.js
 │   ├── profile.js
 │   ├── profileHtml.js
 │   ├── search.js
@@ -42,74 +64,59 @@ DevScope/
 └── README.md
 ```
 
-## Getting Started
+## Installation et lancement
 
-### Prerequisites
-
+### Prérequis
 - Git
-- Node.js and npm
-- A modern web browser
+- Node.js et npm
+- Visual Studio Code avec l'extension Live Server (ou un autre serveur local)
 
-### Installation
+### Étapes
 
-1. Clone the repository:
+1. Cloner le dépôt :
 
    ```bash
    git clone https://github.com/aymanechoukri/DevScope.git
    ```
 
-2. Open the project folder:
+2. Accéder au dossier :
 
    ```bash
    cd DevScope
    ```
 
-3. Install the project dependencies:
+3. Installer les dépendances :
 
    ```bash
    npm install
    ```
 
-4. Run the project using a local development server. For example, with the **Live Server** extension in Visual Studio Code, open `index.html` and choose **Open with Live Server**.
+4. Ouvrir `index.html` avec **Live Server**.
 
-> The project uses JavaScript modules, so run it through a local HTTP server rather than opening the HTML file directly with `file://`.
+> Les modules JavaScript nécessitent un serveur local. N'ouvrez pas directement les pages avec l'URL `file://`.
 
-## How to Use
+## Utilisation
 
-1. Open the **Search** page.
-2. Enter a GitHub username and start the search.
-3. Open the developer profile to inspect profile information and public repositories.
-4. Select **Add to shortlist** to save the candidate.
-5. Open the **Shortlist** page to see saved candidates.
+1. Depuis la page **Search**, saisir un nom d'utilisateur GitHub.
+2. Consulter son profil et parcourir ses dépôts.
+3. Utiliser la recherche et le filtre par langage pour retrouver un dépôt.
+4. Ajouter le développeur à la shortlist.
+5. Depuis la page **Shortlist**, consulter, modifier ou supprimer les candidats.
 
-## APIs
+## API et configuration
 
-- **GitHub Users API:** `https://api.github.com/users` — retrieves public user profiles and repositories.
-- **MockAPI:** stores shortlisted candidate records.
+- GitHub Users API : `https://api.github.com/users`
+- MockAPI : endpoint des candidats configuré dans `src/api.js`.
 
-The MockAPI endpoint is configured in `src/api.js`.
+Aucun token GitHub privé ne doit être ajouté au code source ni envoyé sur GitHub.
 
-## Notes
-
-- GitHub API rate limits may affect how often profiles and repositories can be requested.
-- Only public GitHub profile and repository information is used.
-- Do not commit private API tokens or credentials to the repository.
-- This project is a front-end application; shortlist persistence is handled through the configured MockAPI service.
-
-## Future Improvements
-
-- Add filtering and sorting for shortlisted candidates.
-- Implement candidate status management (for example, contact, interview, selected, or rejected).
-- Improve form validation and API error handling.
-- Add pagination or repository filtering for profiles with many repositories.
-- Make the interface fully responsive and improve accessibility.
-
-## Author
+## Auteur
 
 **Aymane Chokri**
 
-- GitHub: [@aymanechoukri](https://github.com/aymanechoukri)
+- GitHub : [@aymanechoukri](https://github.com/aymanechoukri)
+- Dépôt : [DevScope](https://github.com/aymanechoukri/DevScope/tree/v2)
 
 ---
 
-Built as a practical project to explore GitHub API integration and candidate shortlisting.
+Projet réalisé dans le cadre d'un brief de développement front-end, avec pour objectif d'améliorer la recherche de développeurs GitHub et le suivi des candidats.
